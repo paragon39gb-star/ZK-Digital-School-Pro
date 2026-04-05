@@ -10,7 +10,10 @@ export default function Academic() {
           <h1 className="text-2xl font-bold text-gray-800">Academic Management</h1>
           <p className="text-gray-500">Manage timetables, periods, and subjects.</p>
         </div>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors">
+        <button 
+          onClick={() => window.print()}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors no-print"
+        >
           <Printer size={18} />
           Print Timetable
         </button>

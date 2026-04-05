@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { Plus, Search, Filter, Download, MoreHorizontal, UserPlus, List } from 'lucide-react';
+import { Plus, Search, Filter, Download, MoreHorizontal, UserPlus, List, Printer, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useToast } from '../App';
 
@@ -144,9 +144,31 @@ const StudentList = () => {
                     <td className="px-6 py-4 text-sm text-gray-500">{student.gender}</td>
                     <td className="px-6 py-4 text-sm text-gray-500">{student.religion}</td>
                     <td className="px-6 py-4 text-right">
-                      <button className="p-2 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600 transition-colors">
-                        <MoreHorizontal size={20} />
-                      </button>
+                      <div className="flex justify-end gap-2">
+                        <button 
+                          onClick={() => {
+                            // In a real app, this would navigate to a print-friendly route
+                            // For now, we'll simulate by opening the reports view with this student
+                            window.location.hash = `#/reports?type=Admission Forms&student=${student.id}`;
+                          }}
+                          className="p-2 hover:bg-blue-50 rounded-lg text-blue-600 transition-colors"
+                          title="Print Admission Form"
+                        >
+                          <FileText size={18} />
+                        </button>
+                        <button 
+                          onClick={() => {
+                            window.location.hash = `#/reports?type=ID Cards&student=${student.id}`;
+                          }}
+                          className="p-2 hover:bg-purple-50 rounded-lg text-purple-600 transition-colors"
+                          title="Print ID Card"
+                        >
+                          <Printer size={18} />
+                        </button>
+                        <button className="p-2 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600 transition-colors">
+                          <MoreHorizontal size={20} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))

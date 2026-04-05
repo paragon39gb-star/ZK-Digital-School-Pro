@@ -12,7 +12,8 @@ import {
   ChevronLeft,
   ChevronRight,
   UserCheck,
-  Briefcase
+  Briefcase,
+  Printer
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { format, addDays, subDays } from 'date-fns';
@@ -78,7 +79,14 @@ export default function Attendance() {
           <p className="text-gray-500">Mark or edit {activeTab.toLowerCase()} attendance for {format(selectedDate, 'MMMM dd, yyyy')}.</p>
         </div>
         
-        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto no-print">
+          <button 
+            onClick={() => window.print()}
+            className="px-4 py-2 bg-white border border-gray-200 rounded-xl flex items-center justify-center gap-2 text-gray-600 hover:bg-gray-50 transition-all shadow-sm"
+          >
+            <Printer size={18} />
+            Print Summary
+          </button>
           <div className="flex bg-white p-1 rounded-xl border border-gray-200 shadow-sm">
             <button 
               onClick={() => setActiveTab('Students')}

@@ -14,7 +14,8 @@ import {
   X,
   Calendar,
   User,
-  Hash
+  Hash,
+  Printer
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { motion } from 'motion/react';
@@ -244,7 +245,15 @@ export default function Finance() {
                           </span>
                         </td>
                         <td className="px-6 py-4">
-                          <button className="text-blue-600 hover:underline text-sm font-bold">View Voucher</button>
+                          <button 
+                            onClick={() => {
+                              window.location.hash = `#/reports?type=Fee Invoices&invoice=${row.id}`;
+                            }}
+                            className="text-blue-600 hover:underline text-sm font-bold flex items-center gap-1"
+                          >
+                            <Printer size={14} />
+                            View Voucher
+                          </button>
                         </td>
                       </>
                     )}

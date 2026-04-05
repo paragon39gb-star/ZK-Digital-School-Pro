@@ -131,7 +131,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       {/* Sidebar */}
       <aside 
         className={cn(
-          "bg-white border-r border-gray-200 transition-all duration-300 flex flex-col z-50",
+          "bg-white border-r border-gray-200 transition-all duration-300 flex flex-col z-50 no-print",
           isSidebarOpen ? "w-64" : "w-20"
         )}
       >
@@ -173,9 +173,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col overflow-hidden main-content">
         {/* Header */}
-        <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0">
+        <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0 no-print">
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}

@@ -19,3 +19,26 @@
     background: #cbd5e1;
   }
 }
+
+@layer utilities {
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    .print-only {
+      display: block !important;
+    }
+    body {
+      background: white !important;
+      padding: 0 !important;
+    }
+    .main-content {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+  
+  .print-only {
+    display: none;
+  }
+}
