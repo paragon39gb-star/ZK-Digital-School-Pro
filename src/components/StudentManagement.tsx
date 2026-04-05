@@ -4,12 +4,82 @@ import { Plus, Search, Filter, Download, MoreHorizontal, UserPlus, List } from '
 import { cn } from '../lib/utils';
 
 const StudentList = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  const studentsData = [
+    { 
+      id: '1', 
+      regNo: 'REG-2026-1001', 
+      name: 'Ahmed Khan', 
+      class: 'Grade 5', 
+      gender: 'Male',
+      religion: 'Muslim',
+      dob: '2015-05-12',
+      pob: 'Multan',
+      address: 'Gulgasht Colony, Multan',
+      lastSchool: 'City Public School',
+      siblings: 'REG-2026-1005',
+      category: 'Merit Scholarship',
+      fatherName: 'Muhammad Khan', 
+      motherName: 'Sajida Bibi',
+      fatherOcc: 'Business',
+      motherOcc: 'Housewife',
+      mobile: '+92 300 1234561', 
+      whatsapp: '+92 300 1234561',
+      applicant: 'Father',
+      admType: 'New',
+      regDate: '2026-04-01',
+      submitDate: '2026-04-01',
+      admFee: '5000',
+      status: 'Active' 
+    },
+    { 
+      id: '2', 
+      regNo: 'REG-2026-1002', 
+      name: 'Sara Ali', 
+      class: 'Grade 3', 
+      gender: 'Female',
+      religion: 'Muslim',
+      dob: '2017-08-20',
+      pob: 'Lahore',
+      address: 'Model Town, Lahore',
+      lastSchool: 'Beaconhouse',
+      siblings: 'None',
+      category: 'Staff Child',
+      fatherName: 'Ali Ahmed', 
+      motherName: 'Noreen Ali',
+      fatherOcc: 'Teacher',
+      motherOcc: 'Teacher',
+      mobile: '+92 300 1234562', 
+      whatsapp: '+92 300 1234562',
+      applicant: 'Mother',
+      admType: 'Transfer',
+      regDate: '2026-04-02',
+      submitDate: '2026-04-02',
+      admFee: '4500',
+      status: 'Active' 
+    },
+  ];
+
+  const filteredStudents = studentsData.filter(student => {
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      student.name.toLowerCase().includes(searchLower) ||
+      student.regNo.toLowerCase().includes(searchLower) ||
+      student.class.toLowerCase().includes(searchLower) ||
+      student.fatherName.toLowerCase().includes(searchLower) ||
+      student.mobile.toLowerCase().includes(searchLower) ||
+      student.category.toLowerCase().includes(searchLower) ||
+      student.religion.toLowerCase().includes(searchLower)
+    );
+  });
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-xl font-bold text-gray-800">Students List</h2>
-          <p className="text-sm text-gray-500">Manage all registered students here.</p>
+          <p className="text-sm text-gray-500">Comprehensive view of all registered students.</p>
         </div>
         <div className="flex gap-2 w-full sm:w-auto">
           <Link 
@@ -32,7 +102,9 @@ const StudentList = () => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input 
               type="text" 
-              placeholder="Search by name, reg no, or class..." 
+              placeholder="Search by name, reg no, class, father name, category..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
             />
           </div>
@@ -44,45 +116,95 @@ const StudentList = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full">
+        <div className="overflow-x-auto custom-scrollbar">
+          <table className="w-full min-w-[2500px]">
             <thead className="bg-gray-50">
               <tr className="text-left">
-                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Reg No</th>
-                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Student</th>
-                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Class</th>
-                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Father Name</th>
-                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Mobile</th>
-                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Action</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider sticky left-0 bg-gray-50 z-10">Reg No</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider sticky left-[100px] bg-gray-50 z-10">Student</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Class</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Gender</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Religion</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">DOB</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Place of Birth</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Address</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Last School</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Siblings</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Category</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Father Name</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Mother Name</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Father Occ.</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Mother Occ.</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Mobile</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">WhatsApp</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Applicant</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Adm Type</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Reg Date</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Submit Date</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Adm Fee</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider sticky right-0 bg-gray-50 z-10">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <tr key={i} className="hover:bg-blue-50/30 transition-colors">
-                  <td className="px-6 py-4 text-sm font-semibold text-blue-600">REG-2026-00{i}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gray-200" />
-                      <div>
-                        <p className="text-sm font-medium text-gray-800">Student Name {i}</p>
-                        <p className="text-xs text-gray-500">Male</p>
+              {filteredStudents.length > 0 ? (
+                filteredStudents.map((student) => (
+                  <tr key={student.id} className="hover:bg-blue-50/30 transition-colors group">
+                    <td className="px-4 py-4 text-sm font-semibold text-blue-600 sticky left-0 bg-white group-hover:bg-blue-50 transition-colors">{student.regNo}</td>
+                    <td className="px-4 py-4 sticky left-[100px] bg-white group-hover:bg-blue-50 transition-colors">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-gray-200 flex-shrink-0" />
+                        <div className="truncate max-w-[150px]">
+                          <p className="text-sm font-medium text-gray-800">{student.name}</p>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">Grade {i}</td>
-                  <td className="px-6 py-4 text-sm text-gray-600">Father Name {i}</td>
-                  <td className="px-6 py-4 text-sm text-gray-600">+92 300 123456{i}</td>
-                  <td className="px-6 py-4">
-                    <span className="bg-green-100 text-green-600 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Active</span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <button className="p-2 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600">
-                      <MoreHorizontal size={18} />
-                    </button>
+                    </td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.class}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.gender}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.religion}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.dob}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.pob}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600 truncate max-w-[200px]">{student.address}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.lastSchool}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.siblings}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">
+                      <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[10px] font-medium">
+                        {student.category}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.fatherName}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.motherName}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.fatherOcc}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.motherOcc}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.mobile}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.whatsapp}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.applicant}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.admType}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.regDate}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">{student.submitDate}</td>
+                    <td className="px-4 py-4 text-sm text-gray-600">Rs. {student.admFee}</td>
+                    <td className="px-4 py-4">
+                      <span className={cn(
+                        "text-[10px] font-bold px-2 py-1 rounded-full uppercase",
+                        student.status === 'Active' ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"
+                      )}>
+                        {student.status}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 sticky right-0 bg-white group-hover:bg-blue-50 transition-colors">
+                      <button className="p-2 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600">
+                        <MoreHorizontal size={18} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={24} className="px-6 py-10 text-center text-gray-500">
+                    No students found matching your search.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
