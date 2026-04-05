@@ -52,10 +52,10 @@ const revenueData = [
 ];
 
 const quickActions = [
-  { label: 'Add Student', icon: Plus, to: '/students', color: 'bg-blue-600' },
-  { label: 'Collect Fee', icon: Wallet, to: '/finance', color: 'bg-green-600' },
+  { label: 'Add Student', icon: Plus, to: '/students/add', color: 'bg-blue-600' },
+  { label: 'Collect Fee', icon: Wallet, to: '/finance?action=collect-fee', color: 'bg-green-600' },
   { label: 'Attendance', icon: UserCheck, to: '/attendance', color: 'bg-purple-600' },
-  { label: 'New Exam', icon: GraduationCap, to: '/exams', color: 'bg-orange-600' },
+  { label: 'New Exam', icon: GraduationCap, to: '/exams?action=new-exam', color: 'bg-orange-600' },
 ];
 
 export default function Dashboard() {

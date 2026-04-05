@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   FileText, 
   Award, 
@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { motion } from 'motion/react';
+import { useSearchParams } from 'react-router-dom';
+import { useToast } from '../App';
 
 const examsData = [
   { id: 'e1', name: 'Monthly Test', date: 'April 2026', status: 'In Progress', color: 'bg-blue-500' },
@@ -31,10 +33,28 @@ const resultsData = [
 ];
 
 export default function Examination() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState<'exams' | 'marks' | 'results'>('exams');
   const [isAddExamOpen, setIsAddExamOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedClass, setSelectedClass] = useState('All Classes');
+
+  const handleAddExam = (e: React.FormEvent) => {
+    e.preventDefault();
+    showToast('Examination created successfully!');
+    setIsAddExamOpen(false);
+  };
+
+  useEffect(() => {
+    if (searchParams.get('action') === 'new-exam') {
+      setIsAddExamOpen(true);
+      // Remove the param after opening
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('action');
+      setSearchParams(newParams, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   const filteredResults = useMemo(() => {
     return resultsData.filter(r => 
@@ -271,7 +291,8 @@ export default function Examination() {
               </button>
             </div>
             
-            <div className="p-8 space-y-6">
+            <form onSubmit={handleAddExam}>
+              <div className="p-8 space-y-6">
               <div className="space-y-2">
                 <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
                   <FileText size={16} className="text-blue-600" />
@@ -312,13 +333,14 @@ export default function Examination() {
             </div>
 
             <div className="p-6 bg-gray-50 border-t border-gray-100 flex gap-3">
-              <button onClick={() => setIsAddExamOpen(false)} className="flex-1 py-3 border border-gray-200 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
+              <button type="button" onClick={() => setIsAddExamOpen(false)} className="flex-1 py-3 border border-gray-200 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
                 Cancel
               </button>
-              <button className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100">
+              <button type="submit" className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100">
                 Create Exam
               </button>
             </div>
+            </form>
           </motion.div>
         </div>
       )}

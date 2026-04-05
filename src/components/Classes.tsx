@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { motion } from 'motion/react';
+import { useToast } from '../App';
 
 const classesData = [
   { id: '1', name: 'Pre KG', no: '1st', level: 'Primary', subjects: ['English', 'Math', 'GK'] },
@@ -30,9 +31,16 @@ const levelsData = [
 ];
 
 export default function Classes() {
+  const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState<'list' | 'levels' | 'promotion'>('list');
   const [isAddClassOpen, setIsAddClassOpen] = useState(false);
   const [newClass, setNewClass] = useState({ name: '', level: 'Primary', subjects: [] as string[] });
+
+  const handleAddClass = (e: React.FormEvent) => {
+    e.preventDefault();
+    showToast('Class created successfully!');
+    setIsAddClassOpen(false);
+  };
 
   return (
     <div className="space-y-6">
@@ -188,7 +196,8 @@ export default function Classes() {
               </button>
             </div>
             
-            <div className="p-8 space-y-6">
+            <form onSubmit={handleAddClass}>
+              <div className="p-8 space-y-6">
               <div className="space-y-2">
                 <label className="text-sm font-bold text-gray-700">Class Name</label>
                 <input type="text" placeholder="e.g., Grade 6" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500/20" />
@@ -215,13 +224,14 @@ export default function Classes() {
             </div>
 
             <div className="p-6 bg-gray-50 border-t border-gray-100 flex gap-3">
-              <button onClick={() => setIsAddClassOpen(false)} className="flex-1 py-3 border border-gray-200 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
+              <button type="button" onClick={() => setIsAddClassOpen(false)} className="flex-1 py-3 border border-gray-200 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
                 Cancel
               </button>
-              <button className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100">
+              <button type="submit" className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100">
                 Create Class
               </button>
             </div>
+            </form>
           </motion.div>
         </div>
       )}

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Wallet, 
   TrendingUp, 
@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { motion } from 'motion/react';
+import { useSearchParams } from 'react-router-dom';
+import { useToast } from '../App';
 
 const feeRecords = [
   { id: 'INV-1024', name: 'Ahmed Khan', regNo: 'REG-2026-1001', month: 'April 2026', amount: 4500, method: 'Cash', status: 'Paid', date: '2026-04-01' },
@@ -39,9 +41,27 @@ const salaryRecords = [
 ];
 
 export default function Finance() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState<'cash-in' | 'cash-out' | 'salaries'>('cash-in');
   const [isCollectFeeOpen, setIsCollectFeeOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const handleCollectFee = (e: React.FormEvent) => {
+    e.preventDefault();
+    showToast('Fee payment recorded successfully!');
+    setIsCollectFeeOpen(false);
+  };
+
+  useEffect(() => {
+    if (searchParams.get('action') === 'collect-fee') {
+      setIsCollectFeeOpen(true);
+      // Remove the param after opening to avoid re-opening on refresh or navigation
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('action');
+      setSearchParams(newParams, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   const filteredData = useMemo(() => {
     const term = searchTerm.toLowerCase();
@@ -295,7 +315,8 @@ export default function Finance() {
               </button>
             </div>
             
-            <div className="p-8 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
+            <form onSubmit={handleCollectFee}>
+              <div className="p-8 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
@@ -357,13 +378,14 @@ export default function Finance() {
             </div>
 
             <div className="p-6 bg-gray-50 border-t border-gray-100 flex gap-3">
-              <button onClick={() => setIsCollectFeeOpen(false)} className="flex-1 py-3 border border-gray-200 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
+              <button type="button" onClick={() => setIsCollectFeeOpen(false)} className="flex-1 py-3 border border-gray-200 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
                 Cancel
               </button>
-              <button className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100">
+              <button type="submit" className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100">
                 Record Payment
               </button>
             </div>
+            </form>
           </motion.div>
         </div>
       )}

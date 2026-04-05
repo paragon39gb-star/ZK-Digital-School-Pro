@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { Plus, Search, Filter, Download, MoreHorizontal, UserPlus, List } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { useToast } from '../App';
 
 const StudentList = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -166,11 +167,19 @@ const StudentList = () => {
 
 const AddStudent = () => {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [regNo] = useState(() => {
     const year = new Date().getFullYear();
     const random = Math.floor(1000 + Math.random() * 9000);
     return `REG-${year}-${random}`;
   });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    showToast('Student registered successfully!');
+    setTimeout(() => navigate('/students'), 1000);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -183,7 +192,7 @@ const AddStudent = () => {
         </button>
       </div>
 
-      <form className="space-y-8">
+      <form className="space-y-8" onSubmit={handleSubmit}>
         {/* Student Details */}
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
           <div className="flex items-center gap-2 border-b border-gray-50 pb-4">

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { motion } from 'motion/react';
+import { useToast } from '../App';
 
 const usersData = [
   { id: '1', name: 'Hafiz Khalid', username: 'admin', role: 'Administrator', status: 'Active', phone: '+92 310 6465624', email: 'admin@school.com' },
@@ -33,9 +34,16 @@ const rolesData = [
 ];
 
 export default function UserManagement() {
+  const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState<'users' | 'roles'>('users');
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const handleAddUser = (e: React.FormEvent) => {
+    e.preventDefault();
+    showToast('System user created successfully!');
+    setIsAddUserOpen(false);
+  };
 
   const filteredUsers = usersData.filter(u => 
     u.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -204,7 +212,8 @@ export default function UserManagement() {
               </button>
             </div>
             
-            <div className="p-8 space-y-4">
+            <form onSubmit={handleAddUser}>
+              <div className="p-8 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-gray-700">Full Name</label>
@@ -246,13 +255,14 @@ export default function UserManagement() {
             </div>
 
             <div className="p-6 bg-gray-50 border-t border-gray-100 flex gap-3">
-              <button onClick={() => setIsAddUserOpen(false)} className="flex-1 py-3 border border-gray-200 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
+              <button type="button" onClick={() => setIsAddUserOpen(false)} className="flex-1 py-3 border border-gray-200 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
                 Cancel
               </button>
-              <button className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100">
+              <button type="submit" className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100">
                 Create User
               </button>
             </div>
+            </form>
           </motion.div>
         </div>
       )}

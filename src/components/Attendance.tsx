@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { format, addDays, subDays } from 'date-fns';
+import { useToast } from '../App';
 
 const studentsData = [
   { id: '1', name: 'Ahmed Khan', regNo: 'REG-2026-1001', class: 'Grade 5' },
@@ -32,6 +33,7 @@ const staffData = [
 ];
 
 export default function Attendance() {
+  const { showToast } = useToast();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [attendanceMode, setAttendanceMode] = useState<'Manual' | 'Barcode' | 'Biometric'>('Manual');
   const [activeTab, setActiveTab] = useState<'Students' | 'Staff'>('Students');
@@ -285,7 +287,10 @@ export default function Attendance() {
             </div>
 
             <div className="p-6 border-t border-gray-100 flex justify-end">
-              <button className="px-8 py-2 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">
+              <button 
+                onClick={() => showToast('Attendance saved successfully!')}
+                className="px-8 py-2 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
+              >
                 Save Attendance
               </button>
             </div>

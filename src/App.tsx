@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -18,10 +18,54 @@ import {
   X,
   Home,
   ChevronRight,
-  School
+  School,
+  CheckCircle2,
+  AlertCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './lib/utils';
+
+// Toast Context
+const ToastContext = createContext<{
+  showToast: (message: string, type?: 'success' | 'error') => void;
+} | null>(null);
+
+export const useToast = () => {
+  const context = useContext(ToastContext);
+  if (!context) throw new Error('useToast must be used within a ToastProvider');
+  return context;
+};
+
+const ToastProvider = ({ children }: { children: React.ReactNode }) => {
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  return (
+    <ToastContext.Provider value={{ showToast }}>
+      {children}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 20, x: '-50%' }}
+            className={cn(
+              "fixed bottom-8 left-1/2 z-[100] px-6 py-3 rounded-2xl shadow-2xl flex items-center gap-3 min-w-[300px]",
+              toast.type === 'success' ? "bg-green-600 text-white" : "bg-red-600 text-white"
+            )}
+          >
+            {toast.type === 'success' ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
+            <span className="font-bold">{toast.message}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </ToastContext.Provider>
+  );
+};
 
 // Components (to be created)
 import Dashboard from './components/Dashboard';
@@ -37,19 +81,23 @@ import Reports from './components/Reports';
 import Help from './components/Help';
 import ErrorBoundary from './components/ErrorBoundary';
 
-const SidebarItem = ({ icon: Icon, label, to, active, onClick }: any) => (
+const SidebarItem = ({ icon: Icon, label, to, active, isCollapsed }: any) => (
   <Link
     to={to}
-    onClick={onClick}
     className={cn(
-      "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group",
+      "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group relative",
       active 
         ? "bg-blue-600 text-white shadow-lg shadow-blue-200" 
-        : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+        : "text-gray-600 hover:bg-blue-50 hover:text-blue-600",
+      isCollapsed && "justify-center px-0"
     )}
+    title={isCollapsed ? label : undefined}
   >
     <Icon size={20} className={cn(active ? "text-white" : "text-gray-400 group-hover:text-blue-600")} />
-    <span className="font-medium">{label}</span>
+    {!isCollapsed && <span className="font-medium whitespace-nowrap">{label}</span>}
+    {isCollapsed && active && (
+      <div className="absolute left-0 w-1 h-6 bg-white rounded-r-full" />
+    )}
   </Link>
 );
 
@@ -57,6 +105,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
+  const { showToast } = useToast();
+
+  const handleSignOut = () => {
+    showToast('Signed out successfully!', 'success');
+    // In a real app, we would clear auth state here
+  };
 
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', to: '/' },
@@ -108,7 +162,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </nav>
 
         <div className="p-4 border-t border-gray-100">
-          <button className="flex items-center gap-3 px-4 py-3 w-full text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+          <button 
+            onClick={handleSignOut}
+            className="flex items-center gap-3 px-4 py-3 w-full text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+          >
             <LogOut size={20} />
             {isSidebarOpen && <span className="font-medium">Sign Out</span>}
           </button>
@@ -166,24 +223,26 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 export default function App() {
   return (
     <ErrorBoundary>
-      <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/students/*" element={<StudentManagement />} />
-            <Route path="/attendance" element={<Attendance />} />
-            <Route path="/classes" element={<Classes />} />
-            <Route path="/academic" element={<Academic />} />
-            <Route path="/exams" element={<Examination />} />
-            <Route path="/finance" element={<Finance />} />
-            <Route path="/users" element={<UserManagement />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/help" element={<Help />} />
-            <Route path="*" element={<div className="p-8 text-center text-gray-500">Feature coming soon...</div>} />
-          </Routes>
-        </Layout>
-      </Router>
+      <ToastProvider>
+        <Router>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/students/*" element={<StudentManagement />} />
+              <Route path="/attendance" element={<Attendance />} />
+              <Route path="/classes" element={<Classes />} />
+              <Route path="/academic" element={<Academic />} />
+              <Route path="/exams" element={<Examination />} />
+              <Route path="/finance" element={<Finance />} />
+              <Route path="/users" element={<UserManagement />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/reports" element={<Reports />} />
+              <Route path="/help" element={<Help />} />
+              <Route path="*" element={<div className="p-8 text-center text-gray-500">Feature coming soon...</div>} />
+            </Routes>
+          </Layout>
+        </Router>
+      </ToastProvider>
     </ErrorBoundary>
   );
 }
