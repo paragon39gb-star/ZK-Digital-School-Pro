@@ -6,7 +6,13 @@ import {
   Wallet, 
   TrendingUp, 
   TrendingDown,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  Plus,
+  ArrowRight,
+  Bell,
+  CheckCircle2,
+  Clock,
+  Trophy
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -20,6 +26,7 @@ import {
   Area
 } from 'recharts';
 import { cn } from '../lib/utils';
+import { Link } from 'react-router-dom';
 
 const stats = [
   { label: 'Total Students', value: '1,284', icon: Users, color: 'bg-blue-500', trend: '+12%' },
@@ -44,20 +51,52 @@ const revenueData = [
   { month: 'May', amount: 480000 },
 ];
 
+const quickActions = [
+  { label: 'Add Student', icon: Plus, to: '/students', color: 'bg-blue-600' },
+  { label: 'Collect Fee', icon: Wallet, to: '/finance', color: 'bg-green-600' },
+  { label: 'Attendance', icon: UserCheck, to: '/attendance', color: 'bg-purple-600' },
+  { label: 'New Exam', icon: GraduationCap, to: '/exams', color: 'bg-orange-600' },
+];
+
 export default function Dashboard() {
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Welcome back, Admin</h1>
           <p className="text-gray-500">Here's what's happening at ZK Digital School today.</p>
         </div>
-        <div className="flex gap-2">
-          <button className="bg-white border border-gray-200 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition-colors">
+        <div className="flex gap-2 w-full md:w-auto">
+          <button className="flex-1 md:flex-none bg-white border border-gray-200 px-4 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
             <CalendarIcon size={16} />
             Today: April 5, 2026
           </button>
+          <button className="p-2 bg-white border border-gray-200 rounded-lg text-gray-400 hover:text-blue-600 relative">
+            <Bell size={20} />
+            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+          </button>
         </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {quickActions.map((action, idx) => (
+          <Link 
+            key={idx} 
+            to={action.to}
+            className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all flex items-center gap-4 group"
+          >
+            <div className={cn("p-3 rounded-xl text-white transition-transform group-hover:scale-110", action.color)}>
+              <action.icon size={20} />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-bold text-gray-800">{action.label}</p>
+              <p className="text-[10px] text-gray-400 flex items-center gap-1">
+                Quick Access <ArrowRight size={10} />
+              </p>
+            </div>
+          </Link>
+        ))}
       </div>
 
       {/* Stats Grid */}
@@ -125,43 +164,71 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Recent Activity */}
-      <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-        <h3 className="text-lg font-bold text-gray-800 mb-6">Recent Admissions</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="text-left border-b border-gray-100">
-                <th className="pb-4 font-semibold text-gray-600 text-sm">Reg No</th>
-                <th className="pb-4 font-semibold text-gray-600 text-sm">Student Name</th>
-                <th className="pb-4 font-semibold text-gray-600 text-sm">Class</th>
-                <th className="pb-4 font-semibold text-gray-600 text-sm">Date</th>
-                <th className="pb-4 font-semibold text-gray-600 text-sm">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {[
-                { reg: 'REG-001', name: 'Ahmed Khan', class: 'Grade 5', date: '2026-04-01', status: 'New' },
-                { reg: 'REG-002', name: 'Sara Ali', class: 'Grade 3', date: '2026-04-02', status: 'Transfer' },
-                { reg: 'REG-003', name: 'Zainab Bibi', class: 'KG', date: '2026-04-03', status: 'New' },
-              ].map((row, i) => (
-                <tr key={i} className="hover:bg-gray-50 transition-colors">
-                  <td className="py-4 text-sm font-medium text-blue-600">{row.reg}</td>
-                  <td className="py-4 text-sm text-gray-800">{row.name}</td>
-                  <td className="py-4 text-sm text-gray-600">{row.class}</td>
-                  <td className="py-4 text-sm text-gray-500">{row.date}</td>
-                  <td className="py-4">
-                    <span className={cn(
-                      "text-xs px-2 py-1 rounded-full font-medium",
-                      row.status === 'New' ? "bg-blue-100 text-blue-600" : "bg-purple-100 text-purple-600"
-                    )}>
-                      {row.status}
-                    </span>
-                  </td>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Recent Activity */}
+        <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+          <h3 className="text-lg font-bold text-gray-800 mb-6">Recent Admissions</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="text-left border-b border-gray-100">
+                  <th className="pb-4 font-semibold text-gray-600 text-sm">Reg No</th>
+                  <th className="pb-4 font-semibold text-gray-600 text-sm">Student Name</th>
+                  <th className="pb-4 font-semibold text-gray-600 text-sm">Class</th>
+                  <th className="pb-4 font-semibold text-gray-600 text-sm">Date</th>
+                  <th className="pb-4 font-semibold text-gray-600 text-sm">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {[
+                  { reg: 'REG-001', name: 'Ahmed Khan', class: 'Grade 5', date: '2026-04-01', status: 'New' },
+                  { reg: 'REG-002', name: 'Sara Ali', class: 'Grade 3', date: '2026-04-02', status: 'Transfer' },
+                  { reg: 'REG-003', name: 'Zainab Bibi', class: 'KG', date: '2026-04-03', status: 'New' },
+                ].map((row, i) => (
+                  <tr key={i} className="hover:bg-gray-50 transition-colors">
+                    <td className="py-4 text-sm font-medium text-blue-600">{row.reg}</td>
+                    <td className="py-4 text-sm text-gray-800">{row.name}</td>
+                    <td className="py-4 text-sm text-gray-600">{row.class}</td>
+                    <td className="py-4 text-sm text-gray-500">{row.date}</td>
+                    <td className="py-4">
+                      <span className={cn(
+                        "text-xs px-2 py-1 rounded-full font-medium",
+                        row.status === 'New' ? "bg-blue-100 text-blue-600" : "bg-purple-100 text-purple-600"
+                      )}>
+                        {row.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Upcoming Events */}
+        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+          <h3 className="text-lg font-bold text-gray-800 mb-6">Upcoming Events</h3>
+          <div className="space-y-4">
+            {[
+              { title: 'Monthly Test', date: 'April 10', icon: Clock, color: 'text-blue-600', bg: 'bg-blue-50' },
+              { title: 'Parent Teacher Meeting', date: 'April 15', icon: Users, color: 'text-purple-600', bg: 'bg-purple-50' },
+              { title: 'Sports Day', date: 'April 22', icon: Trophy, color: 'text-orange-600', bg: 'bg-orange-50' },
+              { title: 'Eid Holidays', date: 'April 28', icon: CheckCircle2, color: 'text-green-600', bg: 'bg-green-50' },
+            ].map((event, i) => (
+              <div key={i} className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer">
+                <div className={cn("p-2 rounded-lg", event.bg, event.color)}>
+                  <event.icon size={20} />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-gray-800">{event.title}</p>
+                  <p className="text-xs text-gray-500">{event.date}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button className="w-full mt-6 py-2 text-sm font-bold text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+            View School Calendar
+          </button>
         </div>
       </div>
     </div>

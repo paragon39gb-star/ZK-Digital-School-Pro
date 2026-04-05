@@ -117,90 +117,41 @@ const StudentList = () => {
         </div>
 
         <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full min-w-[2500px]">
-            <thead className="bg-gray-50">
+          <table className="w-full min-w-[800px]">
+            <thead className="bg-gray-50/50">
               <tr className="text-left">
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider sticky left-0 bg-gray-50 z-10">Reg No</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider sticky left-[100px] bg-gray-50 z-10">Student</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Class</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Gender</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Religion</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">DOB</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Place of Birth</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Address</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Last School</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Siblings</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Category</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Father Name</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Mother Name</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Father Occ.</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Mother Occ.</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Mobile</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">WhatsApp</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Applicant</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Adm Type</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Reg Date</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Submit Date</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Adm Fee</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-wider sticky right-0 bg-gray-50 z-10">Action</th>
+                <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Reg No</th>
+                <th className="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase tracking-wider">Student</th>
+                <th className="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase tracking-wider">Class</th>
+                <th className="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase tracking-wider">Gender</th>
+                <th className="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase tracking-wider">Religion</th>
+                <th className="px-6 py-4 text-[11px] font-bold text-gray-500 uppercase tracking-wider text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {filteredStudents.length > 0 ? (
                 filteredStudents.map((student) => (
                   <tr key={student.id} className="hover:bg-blue-50/30 transition-colors group">
-                    <td className="px-4 py-4 text-sm font-semibold text-blue-600 sticky left-0 bg-white group-hover:bg-blue-50 transition-colors">{student.regNo}</td>
-                    <td className="px-4 py-4 sticky left-[100px] bg-white group-hover:bg-blue-50 transition-colors">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-gray-200 flex-shrink-0" />
-                        <div className="truncate max-w-[150px]">
-                          <p className="text-sm font-medium text-gray-800">{student.name}</p>
-                        </div>
+                    <td className="px-6 py-4 text-sm font-semibold text-blue-600">{student.regNo}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0" />
+                        <p className="text-sm font-bold text-gray-700">{student.name}</p>
                       </div>
                     </td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.class}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.gender}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.religion}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.dob}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.pob}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600 truncate max-w-[200px]">{student.address}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.lastSchool}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.siblings}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">
-                      <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[10px] font-medium">
-                        {student.category}
-                      </span>
-                    </td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.fatherName}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.motherName}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.fatherOcc}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.motherOcc}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.mobile}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.whatsapp}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.applicant}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.admType}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.regDate}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">{student.submitDate}</td>
-                    <td className="px-4 py-4 text-sm text-gray-600">Rs. {student.admFee}</td>
-                    <td className="px-4 py-4">
-                      <span className={cn(
-                        "text-[10px] font-bold px-2 py-1 rounded-full uppercase",
-                        student.status === 'Active' ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"
-                      )}>
-                        {student.status}
-                      </span>
-                    </td>
-                    <td className="px-4 py-4 sticky right-0 bg-white group-hover:bg-blue-50 transition-colors">
-                      <button className="p-2 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600">
-                        <MoreHorizontal size={18} />
+                    <td className="px-6 py-4 text-sm text-gray-500">{student.class}</td>
+                    <td className="px-6 py-4 text-sm text-gray-500">{student.gender}</td>
+                    <td className="px-6 py-4 text-sm text-gray-500">{student.religion}</td>
+                    <td className="px-6 py-4 text-right">
+                      <button className="p-2 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600 transition-colors">
+                        <MoreHorizontal size={20} />
                       </button>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={24} className="px-6 py-10 text-center text-gray-500">
+                  <td colSpan={6} className="px-6 py-10 text-center text-gray-500">
                     No students found matching your search.
                   </td>
                 </tr>

@@ -35,6 +35,7 @@ import UserManagement from './components/UserManagement';
 import SettingsPage from './components/Settings';
 import Reports from './components/Reports';
 import Help from './components/Help';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const SidebarItem = ({ icon: Icon, label, to, active, onClick }: any) => (
   <Link
@@ -164,23 +165,25 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
 export default function App() {
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/students/*" element={<StudentManagement />} />
-          <Route path="/attendance" element={<Attendance />} />
-          <Route path="/classes" element={<Classes />} />
-          <Route path="/academic" element={<Academic />} />
-          <Route path="/exams" element={<Examination />} />
-          <Route path="/finance" element={<Finance />} />
-          <Route path="/users" element={<UserManagement />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/help" element={<Help />} />
-          <Route path="*" element={<div className="p-8 text-center text-gray-500">Feature coming soon...</div>} />
-        </Routes>
-      </Layout>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/students/*" element={<StudentManagement />} />
+            <Route path="/attendance" element={<Attendance />} />
+            <Route path="/classes" element={<Classes />} />
+            <Route path="/academic" element={<Academic />} />
+            <Route path="/exams" element={<Examination />} />
+            <Route path="/finance" element={<Finance />} />
+            <Route path="/users" element={<UserManagement />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/help" element={<Help />} />
+            <Route path="*" element={<div className="p-8 text-center text-gray-500">Feature coming soon...</div>} />
+          </Routes>
+        </Layout>
+      </Router>
+    </ErrorBoundary>
   );
 }
