@@ -128,6 +128,10 @@ const AddStudent = () => {
               <input type="text" className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 outline-none" />
             </div>
             <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Student Photo</label>
+              <input type="file" accept="image/*" className="w-full px-4 py-1.5 border border-gray-200 rounded-xl text-sm file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+            </div>
+            <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">Class</label>
               <select className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 outline-none">
                 <option>Select Class</option>
@@ -135,6 +139,15 @@ const AddStudent = () => {
                 <option>KG</option>
                 <option>Nursery</option>
                 <option>One</option>
+                <option>Two</option>
+                <option>Three</option>
+                <option>Four</option>
+                <option>Five</option>
+                <option>Six</option>
+                <option>Seven</option>
+                <option>Eight</option>
+                <option>Nine</option>
+                <option>Ten</option>
               </select>
             </div>
             <div className="space-y-2">
@@ -164,22 +177,25 @@ const AddStudent = () => {
               <label className="text-sm font-medium text-gray-700">Date of Birth</label>
               <input type="date" className="w-full px-4 py-2 border border-gray-200 rounded-xl" />
             </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">Place of Birth</label>
               <input type="text" className="w-full px-4 py-2 border border-gray-200 rounded-xl" />
             </div>
             <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Siblings in School (ID/Reg No)</label>
+              <input type="text" placeholder="Enter Sibling ID" className="w-full px-4 py-2 border border-gray-200 rounded-xl" />
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">Last Attended School</label>
               <input type="text" className="w-full px-4 py-2 border border-gray-200 rounded-xl" />
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Address</label>
-            <textarea rows={2} className="w-full px-4 py-2 border border-gray-200 rounded-xl" />
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Address</label>
+              <textarea rows={1} className="w-full px-4 py-2 border border-gray-200 rounded-xl" />
+            </div>
           </div>
         </div>
 
@@ -205,8 +221,19 @@ const AddStudent = () => {
                 <option>Merit Scholarship</option>
                 <option>Orphan</option>
                 <option>Sibling Discount</option>
+                <option>Retired Armed Forces</option>
+                <option>Special Needs</option>
                 <option>Staff Child</option>
+                <option>Teacher Child</option>
               </select>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Father Occupation</label>
+              <input type="text" className="w-full px-4 py-2 border border-gray-200 rounded-xl" />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Mother Occupation</label>
+              <input type="text" className="w-full px-4 py-2 border border-gray-200 rounded-xl" />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">Mobile No</label>
@@ -223,6 +250,12 @@ const AddStudent = () => {
                 <option>Mother</option>
                 <option>Guardian</option>
                 <option>Uncle</option>
+                <option>Brother</option>
+                <option>Sister</option>
+                <option>Ant</option>
+                <option>Grandfather</option>
+                <option>Grandmother</option>
+                <option>Other</option>
               </select>
             </div>
           </div>
@@ -250,6 +283,16 @@ const AddStudent = () => {
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">Registration Date</label>
               <input type="date" className="w-full px-4 py-2 border border-gray-200 rounded-xl" />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Form Submit Date</label>
+              <input type="date" className="w-full px-4 py-2 border border-gray-200 rounded-xl" />
+            </div>
+            <div className="space-y-2 flex items-end pb-2">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
+                <span className="text-sm font-medium text-gray-700">Print Admission Form</span>
+              </label>
             </div>
           </div>
         </div>
